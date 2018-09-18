@@ -4,22 +4,42 @@
 #include <string>
 #include <map>
 
+/**
+ * Entry point.
+ * @param argc Number of command line arguments.
+ * @param argv Array of command line arguments.
+ */
 int main(int argc, char** argv)
 {
     using namespace std;
 
     srand(time(NULL));
 
-    if(argc != 2)
+	std::string inputFilename;
+	std::string outputFilename;
+
+	if (argc == 2)
+	{
+		inputFilename = argv[1];
+		outputFilename = inputFilename;
+	}
+	else if (argc == 3)
+	{
+		inputFilename = argv[1];
+		outputFilename = argv[2];
+	}
+	else
     {
-        cerr << "Usage: " << argv[0] << " filename.m3u\n";
+		cerr << "Usage:\n"
+			<< "\t" << argv[0] << " filename.m3u\n"
+			<< "\t" << argv[0] << " input.m3u output.m3u\n";
         return 1;
     }
 
-    ifstream in(argv[1]);
-    if(in.good() == false)
+    ifstream in(inputFilename.c_str());
+    if (in.good() == false)
     {
-        cerr << "Couldn't open file " << argv[1] << " for reading.\n";
+        cerr << "Couldn't open file " << inputFilename << " for reading.\n";
         return 1;
     }
 
@@ -27,28 +47,27 @@ int main(int argc, char** argv)
     std::getline(in, header);
     
     std::string buffer;
-    std::map <int, std::string> items;
+    std::multimap <int, std::string> items;
 
     std::getline(in, buffer);
-    while(in.good())
+    while (in.good())
     {
-        items[rand()] = buffer;
+        items.insert(std::pair<int, std::string>(rand(), buffer));
         std::getline(in, buffer);
     }
     in.close();
 
-    ofstream out(argv[1]);
+    ofstream out(outputFilename.c_str());
     if(out.good() == false)
     {
-        cerr << "Couldn't open file " << argv[1] << " for writing.\n";
+        cerr << "Couldn't open file " << outputFilename << " for writing.\n";
         return 1;
     }
 
     out << header << '\n';
-    std::map <int, std::string> ::iterator it = items.begin();
-    while(it != items.end())
+    std::multimap <int, std::string> ::iterator it = items.begin();
+    for (const auto& it : items)
     {
-        out << it->second << '\n';
-        ++it;
+        out << it.second << '\n';
     }
 }
