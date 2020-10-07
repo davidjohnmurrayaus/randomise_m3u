@@ -1,3 +1,4 @@
+#include <climits>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -66,7 +67,6 @@ int main(int argc, char** argv)
     }
 
     out << header << '\n';
-    std::multimap <int, std::string> ::iterator it = items.begin();
     for (const auto& it : items)
     {
         out << it.second << '\n';
