@@ -33,8 +33,8 @@ int main(int argc, char** argv)
     else
     {
         cerr << "Usage:\n"
-            << "\t" << argv[0] << " filename.m3u\n"
-            << "\t" << argv[0] << " input.m3u output.m3u\n";
+            << "\t" << argv[0] << " <filename.m3u>\n"
+            << "\t" << argv[0] << " <input.m3u> <output.m3u>\n";
         return 1;
     }
 
