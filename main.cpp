@@ -1,3 +1,4 @@
+#include <climits>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -32,8 +33,8 @@ int main(int argc, char** argv)
     else
     {
         cerr << "Usage:\n"
-            << "\t" << argv[0] << " filename.m3u\n"
-            << "\t" << argv[0] << " input.m3u output.m3u\n";
+            << "\t" << argv[0] << " <filename.m3u>\n"
+            << "\t" << argv[0] << " <input.m3u> <output.m3u>\n";
         return 1;
     }
 
@@ -66,7 +67,6 @@ int main(int argc, char** argv)
     }
 
     out << header << '\n';
-    std::multimap <int, std::string> ::iterator it = items.begin();
     for (const auto& it : items)
     {
         out << it.second << '\n';
